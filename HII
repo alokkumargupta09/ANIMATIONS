@@ -1,0 +1,78 @@
+import turtle
+import math
+import random
+screen = turtle.Screen()
+screen.setup(1000, 650)
+screen.title("ALOK - Disco Lights")
+screen.bgcolor("black")
+screen.tracer(0)
+pen = turtle.Turtle()
+pen.hideturtle()
+pen.speed(0)
+pen.penup()
+lights = turtle.Turtle()
+lights.hideturtle()
+lights.speed(0)
+lights.penup()
+colors = [
+    "#00FFFF", "#FF00FF", "#39FF14", "#FFD700",
+    "#FF3131", "#7DF9FF", "#FF6EC7", "#B026FF"
+]
+frame = 0
+def animate():
+    global frame
+    pen.clear()
+    lights.clear()
+    for i in range(8):
+        angle = math.radians(frame * 8 + i * 45)
+        x = math.cos(angle) * 450
+        y = math.sin(angle) * 230
+        lights.goto(0, 0)
+        lights.pensize(3)
+        lights.color(colors[(frame + i) % len(colors)])
+        lights.pendown()
+        lights.goto(x, y)
+        lights.penup()
+    for depth in range(15, 0, -1):
+        pen.goto(depth * 2, 20 - depth * 2)
+        pen.color("#5B00A5")
+        pen.write(
+            "ALOK",
+            align="center",
+            font=("Impact", 110, "bold")
+        )
+    color = colors[frame % len(colors)]
+    pen.goto(0, 30)
+    pen.color(color)
+    pen.write(
+        "ALOK",
+        align="center",
+        font=("Impact", 110, "bold")
+    )
+    random.seed(frame)
+    for i in range(55):
+        x = random.randint(-470, 470)
+        y = random.randint(-290, 290)
+        lights.goto(x, y)
+        lights.dot(
+            random.randint(4, 10),
+            random.choice(colors)
+        )
+    lights.goto(-250, -80)
+    lights.pensize(8)
+    lights.color(colors[(frame + 3) % len(colors)])
+    lights.pendown()
+    lights.goto(250, -80)
+    lights.penup()
+    pen.goto(0, -160)
+    pen.color(colors[(frame + 4) % len(colors)])
+    pen.write(
+        "NAMASTE GITHUB",
+        align="center",
+        font=("Arial", 25, "bold")
+    )
+    screen.update()
+    frame += 1
+    screen.ontimer(animate, 120)
+animate()
+screen.exitonclick()
